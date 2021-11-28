@@ -85,7 +85,7 @@ class Agent_QFunction(object):
         update_value = w_tmp[prev_action] + \
             self.alpha * gradient * (self.gamma * q_new - q_old + prev_reward)
         
-        self.w[prev_action]  =  update_value
+        self.w.T[prev_action]  =  update_value
 
         return update_value
 
