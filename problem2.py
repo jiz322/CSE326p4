@@ -46,6 +46,14 @@ class Agent_QFunction(object):
         '''
         #########################################
         ## INSERT YOUR CODE HERE
+        Q0 = np.dot(self.w.T[0], state)
+        Q1 = np.dot(self.w.T[0], state)
+        if Q0 > Q1:
+            return 0
+        elif Q0 < Q1:
+            return 1
+        else
+            return self.env.action_space.sample()
         #########################################
 
     #--------------------------
