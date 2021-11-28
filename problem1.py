@@ -19,7 +19,6 @@ class Agent_QTable(object):
         """
         np.random.seed(21)
         random.seed(21)
-
         self.env = env
         self.alpha = alpha
         self.epsilon = epsilon
@@ -80,15 +79,18 @@ class Agent_QTable(object):
         '''
         #########################################
         ## INSERT YOUR CODE HERE
-        if self.epsilon  ==  1:
-            print("here")
-            
+        if self.epsilon  ==  1:           
             return self.env.action_space.sample()
 
         if state not in self.Q_table.keys():
-            return int(random.random()*2)
+            #register the state with the Q-table
+            #NB: not balanced: giving action 1 high q value
+            agent.Q_table[state] = [0, 1]
+            return self.env.action_space.sample()
 
+        #state in Q-table
 
+        #init the Chance of selecting action 0
         pr_0 = 0
         state_status = self.Q_table[state]
         if state_status[0] > state_status[1]:
