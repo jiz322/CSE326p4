@@ -52,7 +52,7 @@ class Agent_QFunction(object):
             return 0
         elif Q0 < Q1:
             return 1
-        else
+        else:
             return self.env.action_space.sample()
         #########################################
 
