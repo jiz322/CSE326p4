@@ -27,8 +27,6 @@ class Agent_QTable(object):
 
 
 
-        self.env.action_space.np_random.seed(2)
-
 
 
 
