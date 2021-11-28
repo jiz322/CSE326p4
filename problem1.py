@@ -118,4 +118,15 @@ class Agent_QTable(object):
         '''
         #########################################
         ## INSERT YOUR CODE HERE
+
+        #implement lecture note 76
+
+        update_value =  self.Q_table[prev_state][prev_action] + \
+            self.alpha * (prev_reward + self.gamma * max(self.Q_table[prev_state][0], self.Q_table[prev_state][1]) - self.Q_table[prev_state][prev_action] )
+        if prev_action == 0:
+            self.Q_table[next_state] = [update_value, self.Q_table[prev_state][1]]
+        if prev_action == 1:
+            self.Q_table[next_state] = [self.Q_table[prev_state][0], update_value]
+        return update_value
+
         #########################################
