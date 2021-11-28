@@ -71,8 +71,8 @@ class Agent_QFunction(object):
         ## INSERT YOUR CODE HERE
         w = self.w.T[prev_action].T
         w_increased = w + self.decay
-        q_increased = np.dot(w_increased.T, state)
-        q = np.dot(w.T, state)
+        q_increased = np.dot(w_increased.T, prev_state)
+        q = np.dot(w.T, prev_state)
 
         dq = q_increased - q
         gradient = dq / self.decay
