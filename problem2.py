@@ -47,7 +47,7 @@ class Agent_QFunction(object):
         #########################################
         ## INSERT YOUR CODE HERE
         Q0 = np.dot(self.w.T[0], state)
-        Q1 = np.dot(self.w.T[0], state)
+        Q1 = np.dot(self.w.T[1], state)
         if Q0 > Q1:
             return 0
         elif Q0 < Q1:
@@ -69,4 +69,25 @@ class Agent_QFunction(object):
         '''
         #########################################
         ## INSERT YOUR CODE HERE
+        w = self.w.T[prev_action].T
+        w_increased = w + self.decay
+        q_increased = np.dot(w_increased.T, state)
+        q = np.dot(w.T, state)
+
+        dq = q_increased - q
+        gradient = dq / self.decay
+        
+        q_new = np.dot(w.T, next_state)
+        q_old = np.dot(w.T, prev_state)
+
+        w_tmp = self.w.T
+
+        update_value = w_tmp[prev_action] + \
+            self.alpha * gradient * (self.gamma * q_new - q_old + prev_reward)
+        
+        self.w[prev_action]  =  update_value
+
+        return update_value
+
+
         #########################################
