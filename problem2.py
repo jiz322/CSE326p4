@@ -69,24 +69,16 @@ class Agent_QFunction(object):
         '''
         #########################################
         ## INSERT YOUR CODE HERE
-        w = self.w.T[prev_action].T
-        w_increased = w + self.decay
-        q_increased = np.dot(w_increased.T, prev_state)
-        q = np.dot(w.T, prev_state)
-
-        dq = q_increased - q
-        gradient = dq / self.decay
-        
-        q_new = np.dot(w.T, next_state)
-        q_old = np.dot(w.T, prev_state)
-
-        w_tmp = self.w.T
-
-        update_value = w_tmp[prev_action] + \
-            self.alpha * gradient * (self.gamma * q_new - q_old + prev_reward)
-        
+        #LecureNote 89
+        w = [self.w.T[0].T, self.w.T[1].T]
+        gradient = prev_state        
+        q_new_0 = np.dot(w[0].T, next_state)
+        q_new_1 = np.dot(w[1].T, next_state)
+        q_old = np.dot(w[prev_action].T, prev_state)
+        update_value = w[prev_action] + \
+            self.alpha * gradient * (self.gamma * max(q_new_0, q_new_1) - q_old + prev_reward) - \
+            self.decay *  w[prev_action]
         self.w.T[prev_action]  =  update_value
-
         return update_value
 
 

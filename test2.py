@@ -43,6 +43,7 @@ def test_learn():
     prev_action = 0
     prev_reward = 1
     next_state = state
+    print("/n/n/n", state)
     updated_q_entry = agent.learn(prev_state, prev_action, prev_reward, next_state)
     assert np.allclose(updated_q_entry,
                        np.array([-0.01000946, 0.01946727, 0.0194839, 0.02313647]),
