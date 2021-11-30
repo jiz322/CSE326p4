@@ -48,12 +48,17 @@ class Agent_QFunction(object):
         ## INSERT YOUR CODE HERE
         Q0 = np.dot(self.w.T[0], state)
         Q1 = np.dot(self.w.T[1], state)
-        if Q0 > Q1:
-            return 0
-        elif Q0 < Q1:
-            return 1
-        else:
+        if Q0 == Q1:
             return self.env.action_space.sample()
+        p0 = 0.5*self.epsilon
+        if Q0 > Q1:
+            p0 = 1 - 0.5*self.epsilon
+        
+        rand = random.random()
+        if p0 > rand:
+            return 0
+        return 1
+            
         #########################################
 
     #--------------------------

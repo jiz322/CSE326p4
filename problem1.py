@@ -84,14 +84,14 @@ class Agent_QTable(object):
         if state not in self.Q_table.keys():
             #register the state with the Q-table
             #NB: not balanced: giving action 1 high q value
-            self.Q_table[state] = [0, 1]
+            self.Q_table[state] = [0.1, 0.2]
             return self.env.action_space.sample()
 
         #state in Q-table
         if self.epsilon  ==  1:           
             return self.env.action_space.sample()
         #init the Chance of selecting action 0
-        pr_0 = 0
+        pr_0 = self.epsilon/2
         state_status = self.Q_table[state]
         if state_status[0] > state_status[1]:
             pr_0  = 1  -  self.epsilon/2
@@ -99,6 +99,7 @@ class Agent_QTable(object):
             pr_0  = self.epsilon/2
 
         rand = random.random()
+        #print(pr_0)
         if pr_0 > rand:
             return 0
         return 1
@@ -120,13 +121,15 @@ class Agent_QTable(object):
         ## INSERT YOUR CODE HERE
 
         #implement lecture note 76
-
+        if next_state not in self.Q_table.keys():
+            #register the state with the Q-table
+            self.Q_table[next_state] = [0.1, 0.2]
         update_value =  self.Q_table[prev_state][prev_action] + \
-            self.alpha * (prev_reward + self.gamma * max(self.Q_table[prev_state][0], self.Q_table[prev_state][1]) - self.Q_table[prev_state][prev_action] )
+            self.alpha * (prev_reward + self.gamma * max(self.Q_table[next_state][0], self.Q_table[next_state][1]) - self.Q_table[prev_state][prev_action] )
         if prev_action == 0:
-            self.Q_table[next_state] = [update_value, self.Q_table[prev_state][1]]
+            self.Q_table[prev_state] = [update_value, self.Q_table[prev_state][1]]
         if prev_action == 1:
-            self.Q_table[next_state] = [self.Q_table[prev_state][0], update_value]
+            self.Q_table[prev_state] = [self.Q_table[prev_state][0], update_value]
         return update_value
 
         #########################################

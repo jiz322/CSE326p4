@@ -63,16 +63,31 @@ def q_learning(env, agent, alpha_0=0.9, epsilon_0=1):
             # Each episode runs for a maximal of 200 steps.
         	#########################################
         	## INSERT YOUR CODE HERE
+
+
+
+
             prev_state = agent.encode_state(obs)
+            
             #Choose A from S using policy derived from Q
             prev_action = agent.epsilon_greedy(prev_state)
             #take action
-            env.step(prev_action)
+            result = env.step(prev_action)
+            obs = result[0]
+            #print(obs,prev_state, result)
             
             next_state = agent.encode_state(obs)
             #update w or tabular 
             # Rewards: +1 at every step. i.e. goal is to stay alive
             agent.learn(prev_state, prev_action, 1, next_state)
+            episode_rewards = episode_rewards + 1
+
+            if result[2] == True:
+                break
+
+
+
+
 
         	#########################################
 
@@ -90,9 +105,21 @@ def q_learning(env, agent, alpha_0=0.9, epsilon_0=1):
             # Each episode runs for a maximal of 200 steps.
         	#########################################
         	## INSERT YOUR CODE HERE
+
+
+
+
             prev_state = agent.encode_state(obs)
             prev_action = agent.epsilon_greedy(prev_state)
-            env.step(prev_action)
+            result = env.step(prev_action)
+            obs = result[0]
+            episode_rewards = episode_rewards + 1
+            if result[2] == True:
+                break
+
+
+
+
         	#########################################
 
         # record the total reward of this episode
